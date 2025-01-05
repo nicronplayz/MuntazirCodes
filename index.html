@@ -3,350 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Something!</title>
+    <title>Marvel Tic Tac Toe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
     <style>
-        /* CSS styles */
         body {
+            font-family: 'Bangers', cursive;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            color: white;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
+        h1 {
             text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        nav ul {
-            list-style-type: none;
-            padding: 0;
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 10px;
         }
 
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #ffd700;
-        }
-
-        .hero {
-            background-image: url('https://example.com/hero-image.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 400px;
+        .cell {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .hero h1 {
-            font-size: 48px;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-
-        .card {
-            width: calc(33.33% - 20px);
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card h2 {
-            margin-top: 0;
-        }
-
-        .card p {
-            color: #666;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #555;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
+        .status {
             text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
+            font-size: 1.5em;
+            margin-top: 20px;
         }
 
-        .movable-text {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 36px;
-            font-weight: bold;
-            color: #333;
-            cursor: move;
-            user-select: none;
-            z-index: 9999;
+        .reset {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        @media screen and (max-width: 768px) {
-            .card {
-                width: calc(50% - 15px);
+        .reset:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 400px) {
+            .board {
+                grid-template-columns: repeat(3, 80px);
+            }
+            .cell {
+                width: 80px;
+                height: 80px;
+                font-size: 2em;
             }
         }
 
-        @media screen and (max-width: 480px) {
-            .card {
-                width: 100%;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .animate {
+            animation: pulse 0.5s;
         }
 
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
-        }
-
-        .fade-in {
-            animation: fadeIn 1s ease-out;
-        }
-
-        .slide-in {
-            animation: slideIn 0.5s ease-out;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
         }
     </style>
 </head>
 <body>
-    <header class="fade-in">
-        <div class="container">
-            <h1>Cooking Something!</h1>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#recipes">Recipes</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="container">
+        <h1>Marvel Tic Tac Toe</h1>
+        <div class="board" id="board">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
         </div>
-    </header>
-
-    <main>
-        <section class="hero fade-in">
-            <h1 class="pulse">Discover Delicious Recipes</h1>
-        </section>
-
-        <section class="container content">
-            <div class="card slide-in">
-                <img src="https://example.com/recipe1.jpg" alt="Recipe 1">
-                <div class="card-content">
-                    <h2>Pasta Carbonara</h2>
-                    <p>A classic Italian dish with creamy sauce and crispy bacon.</p>
-                    <a href="#" class="btn">View Recipe</a>
-                </div>
-            </div>
-            <div class="card slide-in">
-                <img src="https://example.com/recipe2.jpg" alt="Recipe 2">
-                <div class="card-content">
-                    <h2>Chicken Stir-Fry</h2>
-                    <p>A quick and easy Asian-inspired meal packed with vegetables.</p>
-                    <a href="#" class="btn">View Recipe</a>
-                </div>
-            </div>
-            <div class="card slide-in">
-                <img src="https://example.com/recipe3.jpg" alt="Recipe 3">
-                <div class="card-content">
-                    <h2>Chocolate Brownies</h2>
-                    <p>Indulgent, fudgy brownies that are perfect for dessert lovers.</p>
-                    <a href="#" class="btn">View Recipe</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="fade-in">
-        <div class="container">
-            <p>&copy; 2024 Cooking Something! All rights reserved.</p>
-        </div>
-    </footer>
-
-    <div id="movableText" class="movable-text">Cooking Something!</div>
+        <div class="status" id="status">X's turn</div>
+        <button class="reset" id="reset">Reset Game</button>
+    </div>
 
     <script>
-        // JavaScript for movable text
-        const movableText = document.getElementById('movableText');
-        let isDragging = false;
-        let startX, startY, initialX, initialY;
+        const X_CLASS = 'X';
+        const O_CLASS = 'O';
+        const WINNING_COMBINATIONS = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+        const cellElements = document.querySelectorAll('[data-cell]');
+        const board = document.getElementById('board');
+        const statusElement = document.getElementById('status');
+        const resetButton = document.getElementById('reset');
+        let circleTurn;
 
-        function startDrag(e) {
-            isDragging = true;
-            if (e.type === 'touchstart') {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            } else {
-                startX = e.clientX;
-                startY = e.clientY;
-            }
-            initialX = movableText.offsetLeft;
-            initialY = movableText.offsetTop;
-        }
+        startGame();
 
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                let currentX, currentY;
-                if (e.type === 'touchmove') {
-                    currentX = e.touches[0].clientX;
-                    currentY = e.touches[0].clientY;
-                } else {
-                    currentX = e.clientX;
-                    currentY = e.clientY;
-                }
-                const diffX = currentX - startX;
-                const diffY = currentY - startY;
-                movableText.style.left = initialX + diffX + 'px';
-                movableText.style.top = initialY + diffY + 'px';
-            }
-        }
+        resetButton.addEventListener('click', startGame);
 
-        function stopDrag() {
-            isDragging = false;
-        }
-
-        movableText.addEventListener('mousedown', startDrag);
-        movableText.addEventListener('touchstart', startDrag);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('touchmove', drag);
-        document.addEventListener('mouseup', stopDrag);
-        document.addEventListener('touchend', stopDrag);
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                    observer.unobserve(entry.target);
-                }
+        function startGame() {
+            circleTurn = false;
+            cellElements.forEach(cell => {
+                cell.classList.remove(X_CLASS);
+                cell.classList.remove(O_CLASS);
+                cell.removeEventListener('click', handleClick);
+                cell.addEventListener('click', handleClick, { once: true });
             });
-        }, observerOptions);
+            setBoardHoverClass();
+            statusElement.textContent = "X's turn";
+        }
 
-        document.querySelectorAll('.card').forEach(card => {
-            observer.observe(card);
-        });
+        function handleClick(e) {
+            const cell = e.target;
+            const currentClass = circleTurn ? O_CLASS : X_CLASS;
+            placeMark(cell, currentClass);
+            if (checkWin(currentClass)) {
+                endGame(false);
+            } else if (isDraw()) {
+                endGame(true);
+            } else {
+                swapTurns();
+                setBoardHoverClass();
+            }
+        }
 
-        // Responsive navigation
-        const navToggle = document.createElement('button');
-        navToggle.textContent = 'Menu';
-        navToggle.classList.add('nav-toggle');
-        document.querySelector('nav').prepend(navToggle);
+        function endGame(draw) {
+            if (draw) {
+                statusElement.textContent = 'Draw!';
+            } else {
+                statusElement.textContent = `${circleTurn ? "O's" : "X's"} Wins!`;
+            }
+            cellElements.forEach(cell => {
+                cell.removeEventListener('click', handleClick);
+            });
+        }
 
-        navToggle.addEventListener('click', () => {
-            document.querySelector('nav ul').classList.toggle('show');
-        });
+        function isDraw() {
+            return [...cellElements].every(cell => {
+                return cell.classList.contains(X_CLASS) || cell.classList.contains(O_CLASS);
+            });
+        }
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+        function placeMark(cell, currentClass) {
+            cell.classList.add(currentClass);
+            cell.classList.add('animate');
+            setTimeout(() => cell.classList.remove('animate'), 500);
+        }
+
+        function swapTurns() {
+            circleTurn = !circleTurn;
+            statusElement.textContent = `${circleTurn ? "O's" : "X's"} turn`;
+        }
+
+        function setBoardHoverClass() {
+            board.classList.remove(X_CLASS);
+            board.classList.remove(O_CLASS);
+            if (circleTurn) {
+                board.classList.add(O_CLASS);
+            } else {
+                board.classList.add(X_CLASS);
+            }
+        }
+
+        function checkWin(currentClass) {
+            return WINNING_COMBINATIONS.some(combination => {
+                return combination.every(index => {
+                    return cellElements[index].classList.contains(currentClass);
                 });
             });
-        });
-
-        // Lazy loading images
-        if ('loading' in HTMLImageElement.prototype) {
-            const images = document.querySelectorAll('img[loading="lazy"]');
-            images.forEach(img => {
-                img.src = img.dataset.src;
-            });
-        } else {
-            // Fallback for browsers that don't support lazy loading
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-            document.body.appendChild(script);
         }
-
-        // Dark mode toggle
-        const darkModeToggle = document.createElement('button');
-        darkModeToggle.textContent = 'Toggle Dark Mode';
-        darkModeToggle.classList.add('dark-mode-toggle');
-        document.body.appendChild(darkModeToggle);
-
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-        });
-
-        // Add more JavaScript functionality here to reach 600 lines
-        // ...
     </script>
 </body>
 </html>
